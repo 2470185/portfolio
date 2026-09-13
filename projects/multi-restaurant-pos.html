@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Multi-Restaurant POS — Kuldeep Patra</title>
+<meta name="description" content="Order capture, live floor state and GST billing across three restaurant outlets.">
+<meta property="og:title" content="Multi-Restaurant POS — Kuldeep Patra">
+<meta property="og:description" content="Order capture, live floor state and GST billing across three restaurant outlets.">
+<meta property="og:image" content="https://github.com/2470185.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07070b">
+<link rel="icon" href="https://github.com/2470185.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+.p-hero{padding:132px 0 54px}
+.back{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:24px}
+.back:hover{color:var(--accent)}
+.p-hero h1{font-weight:800;font-size:clamp(32px,5vw,54px);margin-bottom:14px}
+.p-one{font-size:clamp(16px,1.9vw,19px);color:var(--muted);max-width:62ch;margin-bottom:20px}
+.p-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:26px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.two-col h3{font-weight:700;font-size:19px;margin-bottom:10px}
+.two-col p{color:var(--muted);font-size:15px}
+.shots{display:flex;flex-direction:column;gap:34px}
+.shot{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.shot img{width:100%}
+.shot figcaption{padding:13px 18px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line)}
+.decs{display:flex;flex-direction:column;gap:26px}
+.dec{border-left:2px solid var(--line-hi);padding-left:22px}
+.dec h3{font-weight:700;font-size:18px;margin-bottom:8px}
+.dec p{color:var(--muted);font-size:15px}
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.feat{border:1px solid var(--line);border-radius:var(--radius);padding:20px;background:var(--surface)}
+.feat h4{font-weight:700;font-size:15.5px;margin-bottom:6px}
+.feat p{color:var(--muted);font-size:14px}
+.limits{list-style:none;display:flex;flex-direction:column;gap:12px;max-width:78ch}
+.limits li{color:var(--muted);font-size:15px;padding-left:20px;position:relative}
+.limits li::before{content:'\2014';position:absolute;left:0;color:var(--dim)}
+.next{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:900px){.two-col,.feats{grid-template-columns:1fr}section{padding:62px 0}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<div class="mesh"></div><div class="grid-lines"></div>
+<nav><div class="nav-in">
+  <a href="../index.html" class="logo">kuldeep<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#work">Work</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a class="pill" href="../index.html#contact"><span class="dot"></span>Open to AI roles</a>
+</div></nav>
+
+<section class="p-hero">
+  <div class="wrap">
+    <a class="back" href="../index.html#work">&larr; All work</a>
+    <h1>Multi-Restaurant POS</h1>
+    <p class="p-one">Order capture, live floor state and GST billing across three restaurant outlets.</p>
+    <div class="p-meta"><span class="tag tag-live">In production</span><span class="chip">React 19</span><span class="chip">TypeScript</span><span class="chip">TanStack</span><span class="chip">PocketBase</span><span class="chip">Realtime SSE</span><span class="chip">ESC/POS</span></div>
+    <div class="next">
+      <a class="btn btn-p" href="https://github.com/2470185/multi-tenant-restaurant-pos" target="_blank" rel="noopener">Full technical write-up &#8599;</a>
+    </div>
+  </div>
+</section>
+
+<section id="overview">
+  <div class="wrap rv">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Overview</h2></div>
+    <div class="two-col">
+      <div><h3>The problem</h3><p>Three restaurants under one owner, each taking orders on paper and reconciling
+revenue by hand at close. GST filing meant re-keying a month of handwritten bills, and the
+owner could not compare outlets without physically visiting each one. The hard constraint
+was connectivity: these are restaurants in a tourist town, and a POS that stops taking
+orders when the line drops is worse than paper.</p></div>
+      <div><h3>What I built</h3><p>A platform handling order capture, live floor state, billing and statutory
+reporting across all three outlets, with per-outlet isolation and a consolidated owner view.
+Sole engineer — requirements with a non-technical owner, data modelling, build, on-site
+deployment and ongoing support.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="decisions">
+  <div class="wrap">
+    <div class="rv"><div class="sec-head"><span class="sec-num">02</span><h2>Engineering decisions</h2></div>
+    <p class="sec-sub">The parts worth defending in an interview &mdash; and why the alternative was worse.</p></div>
+    <div class="decs">
+      <div class="dec rv"><h3>Database-per-tenant, not a shared partitioned schema</h3><p>Each outlet runs its own PocketBase process with its own SQLite file on its own on-prem PC. One cloud database with an outlet_id column would have made the owner’s consolidated view a single query instead of three. I took the harder reporting path to buy operational independence: a restaurant whose internet drops keeps taking orders, printing tickets and closing bills locally, and only the cross-outlet view degrades. The cost is real — the owner view authenticates to three instances and merges client-side.</p></div>
+      <div class="dec rv"><h3>Business invariants enforced in the database, not the client</h3><p>Two captains claiming the same table at the same moment is not solvable in React. A version check runs inside PocketBase on every status transition, narrow by design — it only fires on the available-to-occupied move, the one instant a collision can happen. The loser gets a typed error the UI can act on, instead of two captains silently building orders on one table.</p></div>
+      <div class="dec rv"><h3>Prices and GST slabs snapshotted onto the order line</h3><p>A bill is computed from the price and slab captured when the item was ordered, never from the live menu. Menu prices change; a bill reprinted in October must reproduce exactly what was issued in April, and GST filings are audited against the figures as issued.</p></div>
+      <div class="dec rv"><h3>Rounding per line, not on the total</h3><p>Two lines of ₹33.333 round to ₹66.67 at the end but ₹66.66 per line. The receipt shows per-line amounts, so the totals must equal the sum of the numbers the customer can actually see.</p></div>
+      <div class="dec rv"><h3>A separate on-prem worker for printing</h3><p>Thermal printers speak ESC/POS over USB or raw TCP, neither reachable from a web runtime. A small Node worker on the restaurant LAN turns print-job rows into paper. Making printing a queue rather than a synchronous call also means a jammed printer never blocks a cashier from closing a bill.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="interface">
+  <div class="wrap">
+    <div class="rv"><div class="sec-head"><span class="sec-num">03</span><h2>Interface</h2></div>
+    <p class="sec-sub">All screenshots captured against a locally seeded demo database.
+      Every name, figure and identifier shown is invented.</p></div>
+    <div class="shots">
+      <figure class="shot rv"><img src="../assets/img/pos/walkthrough.gif" alt="End to end — sign in, live floor, build an order with GST computing per line, transactions, analytics." loading="lazy"><figcaption>End to end — sign in, live floor, build an order with GST computing per line, transactions, analytics.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pos/03-order-taking.png" alt="Order capture. Searchable menu with the GST slab on every item, keyboard-driven for speed at a till." loading="lazy"><figcaption>Order capture. Searchable menu with the GST slab on every item, keyboard-driven for speed at a till.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pos/02-live-floor.png" alt="Live floor. Table state by section, shared across every device in real time." loading="lazy"><figcaption>Live floor. Table state by section, shared across every device in real time.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pos/06-revenue-analytics.png" alt="Analytics. Daily, monthly and yearly revenue with payment-method breakdown." loading="lazy"><figcaption>Analytics. Daily, monthly and yearly revenue with payment-method breakdown.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pos/08-owner-dashboard.png" alt="Owner view. All three outlets on one screen." loading="lazy"><figcaption>Owner view. All three outlets on one screen.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pos/09-mobile-floor.png" alt="The captain’s phone — the same floor state, carried between tables." loading="lazy"><figcaption>The captain’s phone — the same floor state, carried between tables.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="rv"><div class="sec-head"><span class="sec-num">04</span><h2>Features</h2></div></div>
+    <div class="feats">
+      <div class="feat rv"><h4>Dine-in and parcel orders</h4><p>Dine-in attaches to a table; parcel skips the floor entirely.</p></div>
+      <div class="feat rv"><h4>Server-assigned ticket numbers</h4><p>Two devices ordering at once cannot duplicate or skip a kitchen ticket number.</p></div>
+      <div class="feat rv"><h4>Live table board</h4><p>Colour-coded by state, updating across devices without a refresh.</p></div>
+      <div class="feat rv"><h4>GST-compliant invoicing</h4><p>CGST/SGST split per line from the slab captured at order time, printed with the outlet’s registered GSTIN.</p></div>
+      <div class="feat rv"><h4>Immutable finalised bills</h4><p>Payment method locked after finalisation; no items can be added to the order behind it.</p></div>
+      <div class="feat rv"><h4>Reporting and export</h4><p>Daily, monthly and yearly views with payment-method breakdown, top items, and PDF/CSV/Excel export.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap rv">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Known limitations</h2></div>
+    <p class="sec-sub">What I would fix next, stated plainly.</p>
+    <ul class="limits">
+      <li>Reporting aggregates in JavaScript after fetching every bill in the window — invisible at three outlets, not at thirty. A nightly rollup is the fix.</li>
+      <li>An admin without a branch assignment falls back to a slug where the query expects a record ID, so their reports render empty. Two identifiers with the same shape and different meanings.</li>
+      <li>Secrets were hardcoded in an early version rather than read from environment configuration — corrected, and the reason I now treat configuration as part of the design rather than an afterthought.</li>
+    </ul>
+    <div class="next" style="margin-top:32px">
+      <a class="btn btn-p" href="https://github.com/2470185/multi-tenant-restaurant-pos" target="_blank" rel="noopener">Read the full write-up &#8599;</a>
+      <a class="btn btn-s" href="../index.html#work">Other projects</a>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">
+  &copy; 2026 Kuldeep Patra &middot; Bengaluru, India &middot;
+  <a href="https://github.com/2470185" target="_blank" rel="noopener">GitHub</a> &middot;
+  <a href="https://www.linkedin.com/in/kuldeeppatra" target="_blank" rel="noopener">LinkedIn</a>
+</div></footer>
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+    {threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el,i){
+    el.style.transitionDelay=(Math.min(i,5)*55)+'ms';io.observe(el);});
+})();
+</script>
+</body>
+</html>

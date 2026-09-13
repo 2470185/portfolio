@@ -1,0 +1,90 @@
+/* Kuldeep Patra — portfolio
+   Dark, engineering-forward. Projects first. */
+
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --bg:#07070b; --surface:rgba(255,255,255,.026); --surface-2:rgba(255,255,255,.045);
+  --accent:#7c6af7; --accent-soft:rgba(124,106,247,.14);
+  --amber:#e8c547; --green:#4ade80; --cyan:#5ad1e6;
+  --text:#f3f1fc; --muted:#9793b2; --dim:#565274;
+  --line:rgba(255,255,255,.085); --line-hi:rgba(124,106,247,.4);
+  --max:1180px; --radius:14px;
+  --mono:'JetBrains Mono','DM Mono',ui-monospace,monospace;
+}
+html{scroll-behavior:smooth;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,-apple-system,'Segoe UI',sans-serif;
+  font-weight:300;line-height:1.65;overflow-x:hidden;-webkit-font-smoothing:antialiased}
+::selection{background:var(--accent);color:#fff}
+a{color:inherit}
+img{max-width:100%;display:block}
+h1,h2,h3,h4{font-family:'Syne',sans-serif;letter-spacing:-.025em;line-height:1.15}
+
+/* ambient */
+.mesh{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background:
+   radial-gradient(ellipse 55% 45% at 78% 6%,rgba(124,106,247,.15),transparent 62%),
+   radial-gradient(ellipse 42% 38% at 8% 62%,rgba(90,209,230,.05),transparent 62%),
+   radial-gradient(ellipse 36% 32% at 88% 88%,rgba(232,197,71,.045),transparent 60%)}
+.grid-lines{position:fixed;inset:0;pointer-events:none;z-index:0;
+  background-image:linear-gradient(rgba(255,255,255,.02) 1px,transparent 1px),
+                   linear-gradient(90deg,rgba(255,255,255,.02) 1px,transparent 1px);
+  background-size:68px 68px;
+  mask-image:radial-gradient(ellipse 75% 55% at 60% 12%,#000,transparent);
+  -webkit-mask-image:radial-gradient(ellipse 75% 55% at 60% 12%,#000,transparent)}
+.wrap{position:relative;z-index:1;max-width:var(--max);margin:0 auto;padding:0 26px}
+
+/* nav */
+nav{position:fixed;top:0;left:0;right:0;z-index:100;
+  backdrop-filter:blur(18px);-webkit-backdrop-filter:blur(18px);
+  background:rgba(7,7,11,.8);border-bottom:1px solid var(--line)}
+.nav-in{max-width:var(--max);margin:0 auto;padding:15px 26px;display:flex;align-items:center;justify-content:space-between;gap:18px}
+.logo{font-family:'Syne',sans-serif;font-weight:800;font-size:16px;text-decoration:none;letter-spacing:-.02em}
+.logo span{color:var(--accent)}
+.nav-links{display:flex;gap:24px;list-style:none}
+.nav-links a{font-family:var(--mono);font-size:12px;letter-spacing:.06em;color:var(--muted);text-decoration:none;transition:color .18s}
+.nav-links a:hover,.nav-links a[aria-current]{color:var(--text)}
+.pill{display:inline-flex;align-items:center;gap:8px;padding:7px 14px;border-radius:999px;
+  border:1px solid rgba(74,222,128,.3);background:rgba(74,222,128,.07);
+  font-family:var(--mono);font-size:11px;color:var(--green);text-decoration:none;white-space:nowrap}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--green);animation:pulse 2.4s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
+
+/* buttons */
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 22px;border-radius:9px;
+  font-size:14px;font-weight:500;text-decoration:none;
+  transition:transform .18s,box-shadow .18s,border-color .18s,background .18s}
+.btn-p{background:var(--accent);color:#fff;box-shadow:0 6px 22px rgba(124,106,247,.3)}
+.btn-p:hover{transform:translateY(-2px);box-shadow:0 10px 30px rgba(124,106,247,.42)}
+.btn-s{border:1px solid var(--line);color:var(--text);background:var(--surface)}
+.btn-s:hover{border-color:var(--line-hi);transform:translateY(-2px)}
+
+/* section scaffolding */
+section{padding:92px 0;position:relative;z-index:1}
+.sec-head{display:flex;align-items:baseline;gap:14px;margin-bottom:12px}
+.sec-num{font-family:var(--mono);font-size:12px;color:var(--accent)}
+h2{font-weight:700;font-size:clamp(27px,3.5vw,38px)}
+.sec-sub{color:var(--muted);max-width:64ch;margin-bottom:44px;font-size:15.5px}
+
+/* chips / tags */
+.chip{font-family:var(--mono);font-size:11px;color:var(--muted);
+  border:1px solid var(--line);border-radius:6px;padding:4px 9px;white-space:nowrap}
+.tag{font-family:var(--mono);font-size:10px;letter-spacing:.09em;text-transform:uppercase;
+  padding:5px 10px;border-radius:6px;white-space:nowrap}
+.tag-live{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.26)}
+.tag-case{background:rgba(232,197,71,.09);color:var(--amber);border:1px solid rgba(232,197,71,.24)}
+.tag-ml{background:rgba(90,209,230,.09);color:var(--cyan);border:1px solid rgba(90,209,230,.24)}
+
+/* reveal */
+.rv{opacity:0;transform:translateY(20px);transition:opacity .55s ease,transform .55s ease}
+.rv.in{opacity:1;transform:none}
+
+footer{border-top:1px solid var(--line);padding:26px 0;text-align:center;color:var(--dim);font-size:13px;position:relative;z-index:1}
+footer a{color:var(--muted);text-decoration:none}
+footer a:hover{color:var(--text)}
+
+@media(prefers-reduced-motion:reduce){
+  *{animation:none!important;transition:none!important}
+  .rv{opacity:1;transform:none}
+  html{scroll-behavior:auto}
+}

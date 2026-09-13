@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Hotel Property Management System — Kuldeep Patra</title>
+<meta name="description" content="Room operations, housekeeping, payroll and staff workflows across five role-based views.">
+<meta property="og:title" content="Hotel Property Management System — Kuldeep Patra">
+<meta property="og:description" content="Room operations, housekeeping, payroll and staff workflows across five role-based views.">
+<meta property="og:image" content="https://github.com/2470185.png">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#07070b">
+<link rel="icon" href="https://github.com/2470185.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="../assets/css/style.css">
+<style>
+.p-hero{padding:132px 0 54px}
+.back{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:24px}
+.back:hover{color:var(--accent)}
+.p-hero h1{font-weight:800;font-size:clamp(32px,5vw,54px);margin-bottom:14px}
+.p-one{font-size:clamp(16px,1.9vw,19px);color:var(--muted);max-width:62ch;margin-bottom:20px}
+.p-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:26px}
+.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px}
+.two-col h3{font-weight:700;font-size:19px;margin-bottom:10px}
+.two-col p{color:var(--muted);font-size:15px}
+.shots{display:flex;flex-direction:column;gap:34px}
+.shot{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
+.shot img{width:100%}
+.shot figcaption{padding:13px 18px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line)}
+.decs{display:flex;flex-direction:column;gap:26px}
+.dec{border-left:2px solid var(--line-hi);padding-left:22px}
+.dec h3{font-weight:700;font-size:18px;margin-bottom:8px}
+.dec p{color:var(--muted);font-size:15px}
+.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.feat{border:1px solid var(--line);border-radius:var(--radius);padding:20px;background:var(--surface)}
+.feat h4{font-weight:700;font-size:15.5px;margin-bottom:6px}
+.feat p{color:var(--muted);font-size:14px}
+.limits{list-style:none;display:flex;flex-direction:column;gap:12px;max-width:78ch}
+.limits li{color:var(--muted);font-size:15px;padding-left:20px;position:relative}
+.limits li::before{content:'\2014';position:absolute;left:0;color:var(--dim)}
+.next{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
+@media(max-width:900px){.two-col,.feats{grid-template-columns:1fr}section{padding:62px 0}.nav-links{display:none}}
+</style>
+</head>
+<body>
+<div class="mesh"></div><div class="grid-lines"></div>
+<nav><div class="nav-in">
+  <a href="../index.html" class="logo">kuldeep<span>.</span></a>
+  <ul class="nav-links">
+    <li><a href="../index.html#work">Work</a></li>
+    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#about">About</a></li>
+    <li><a href="../index.html#contact">Contact</a></li>
+  </ul>
+  <a class="pill" href="../index.html#contact"><span class="dot"></span>Open to AI roles</a>
+</div></nav>
+
+<section class="p-hero">
+  <div class="wrap">
+    <a class="back" href="../index.html#work">&larr; All work</a>
+    <h1>Hotel Property Management System</h1>
+    <p class="p-one">Room operations, housekeeping, payroll and staff workflows across five role-based views.</p>
+    <div class="p-meta"><span class="tag tag-live">In production</span><span class="chip">React</span><span class="chip">TypeScript</span><span class="chip">PocketBase</span><span class="chip">RBAC</span><span class="chip">Web Push</span><span class="chip">Express</span></div>
+    <div class="next">
+      <a class="btn btn-p" href="https://github.com/2470185/hotel-property-management-system" target="_blank" rel="noopener">Full technical write-up &#8599;</a>
+    </div>
+  </div>
+</section>
+
+<section id="overview">
+  <div class="wrap rv">
+    <div class="sec-head"><span class="sec-num">01</span><h2>Overview</h2></div>
+    <div class="two-col">
+      <div><h3>The problem</h3><p>Housekeeping ran on paper. A supervisor walked the floors with a clipboard,
+wrote down which rooms were dirty, handed slips to housekeepers and collected them back.
+Front desk had no way to know a room was ready without asking someone. Payroll was
+reconstructed at month-end from attendance scribbled in a register. The failure mode was
+always the same: a guest checked into a room nobody had confirmed was clean, or a clean room
+sat empty because the news had not travelled.</p></div>
+      <div><h3>What I built</h3><p>One application covering room state, housekeeping assignment, tasks, leave
+requests, attendance-derived payroll and an activity log — with the view adapting to whoever
+logs in. Sole engineer, from on-site requirements through deployment onto hotel hardware.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="decisions">
+  <div class="wrap">
+    <div class="rv"><div class="sec-head"><span class="sec-num">02</span><h2>Engineering decisions</h2></div>
+    <p class="sec-sub">The parts worth defending in an interview &mdash; and why the alternative was worse.</p></div>
+    <div class="decs">
+      <div class="dec rv"><h3>Room status is a state machine with a previous-status field</h3><p>Clean, occupied, checkout, dirty, cleaning, with maintenance and damaged as off-path states. The previous-status field exists because maintenance is an interruption, not a transition: a room coming back from repair needs to return to whatever it was before. One column that removes a whole class of “what was this room before someone flagged the broken AC?” bugs.</p></div>
+      <div class="dec rv"><h3>Reporting derived from the log, not stored as aggregates</h3><p>Staff performance counts action entries in the activity log for the current day. There is no performance table to drift out of sync; the log is the single source of truth and every number is re-derived on view. The trade-off is that the report depends on the log’s string conventions — a renamed action silently produces a zero rather than an error, and a typed enum would have made that coupling explicit.</p></div>
+      <div class="dec rv"><h3>Payroll figures masked by default</h3><p>Salary, deductions and net pay render hidden behind a per-row reveal. The admin terminal sits at a front desk where staff and guests walk past; a manager opening payroll should not broadcast what everyone earns to whoever is standing there.</p></div>
+      <div class="dec rv"><h3>Screenshot protection as a product feature</h3><p>The interface blurs itself on PrintScreen, on window blur and when the pointer leaves the page. It is a deterrent against casual capture of guest details, not a defence against a determined attacker, and I would not claim otherwise.</p></div>
+      <div class="dec rv"><h3>Hardware-bound installation licensing</h3><p>Activation ties an install to a specific machine and is validated server-side on boot. A pragmatic answer to how a solo developer prevents a system being copied to a second property — with a real ongoing cost, since a hardware change becomes a support call.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="interface">
+  <div class="wrap">
+    <div class="rv"><div class="sec-head"><span class="sec-num">03</span><h2>Interface</h2></div>
+    <p class="sec-sub">All screenshots captured against a locally seeded demo database.
+      Every name, figure and identifier shown is invented.</p></div>
+    <div class="shots">
+      <figure class="shot rv"><img src="../assets/img/pms/walkthrough.gif" alt="End to end — sign in, live room board, housekeeping’s scoped view, tasks, payroll, reporting." loading="lazy"><figcaption>End to end — sign in, live room board, housekeeping’s scoped view, tasks, payroll, reporting.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pms/10-front-desk-rooms.png" alt="Front desk. Live occupancy with guest names, stay day counts and checkout markers." loading="lazy"><figcaption>Front desk. Live occupancy with guest names, stay day counts and checkout markers.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pms/11-housekeeping-view.png" alt="Housekeeping. The same rooms, scoped to what this person is responsible for." loading="lazy"><figcaption>Housekeeping. The same rooms, scoped to what this person is responsible for.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pms/07-payroll.png" alt="Payroll derived from recorded attendance — figures masked by default behind a per-row reveal." loading="lazy"><figcaption>Payroll derived from recorded attendance — figures masked by default behind a per-row reveal.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pms/09-reporting.png" alt="Reporting. Live duty status and per-person daily performance, computed from the activity log." loading="lazy"><figcaption>Reporting. Live duty status and per-person daily performance, computed from the activity log.</figcaption></figure>
+      <figure class="shot rv"><img src="../assets/img/pms/02-manager-tasks.png" alt="Task assignment with priority and due date, delivered to a phone rather than a paper slip." loading="lazy"><figcaption>Task assignment with priority and due date, delivered to a phone rather than a paper slip.</figcaption></figure>
+    </div>
+  </div>
+</section>
+
+<section id="features">
+  <div class="wrap">
+    <div class="rv"><div class="sec-head"><span class="sec-num">04</span><h2>Features</h2></div></div>
+    <div class="feats">
+      <div class="feat rv"><h4>Five role-based views</h4><p>Housekeeping, supervisor, front desk, manager and admin — one build, five different systems.</p></div>
+      <div class="feat rv"><h4>Live room board</h4><p>Occupancy counters and colour-coded state across every floor.</p></div>
+      <div class="feat rv"><h4>Housekeeping assignment</h4><p>Work assigned to a named person, delivered by push notification.</p></div>
+      <div class="feat rv"><h4>Guest add-ons</h4><p>Requested, delivered, pending collection, returned — so items that went out come back.</p></div>
+      <div class="feat rv"><h4>Attendance-derived payroll</h4><p>Working days, absences, deductions, bonuses and advances, with payment vouchers and PDF export.</p></div>
+      <div class="feat rv"><h4>Leave workflow</h4><p>Type, date range, reason and an approval trail visible to both sides.</p></div>
+      <div class="feat rv"><h4>Immutable activity log</h4><p>Every status change attributed to a person and a room, with photographs where relevant.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap rv">
+    <div class="sec-head"><span class="sec-num">05</span><h2>Known limitations</h2></div>
+    <p class="sec-sub">What I would fix next, stated plainly.</p>
+    <ul class="limits">
+      <li>The main application file grew past 170KB because every feature was faster to add in place than to extract. Splitting by role boundary is the refactor I would do first.</li>
+      <li>Several data fetches catch errors into the console and leave the UI showing an empty state — an empty list and a broken request should not look identical to the person using the system.</li>
+      <li>A relation column carries a placeholder name that survived into production, because renaming it meant a migration against live data.</li>
+    </ul>
+    <div class="next" style="margin-top:32px">
+      <a class="btn btn-p" href="https://github.com/2470185/hotel-property-management-system" target="_blank" rel="noopener">Read the full write-up &#8599;</a>
+      <a class="btn btn-s" href="../index.html#work">Other projects</a>
+    </div>
+  </div>
+</section>
+<footer><div class="wrap">
+  &copy; 2026 Kuldeep Patra &middot; Bengaluru, India &middot;
+  <a href="https://github.com/2470185" target="_blank" rel="noopener">GitHub</a> &middot;
+  <a href="https://www.linkedin.com/in/kuldeeppatra" target="_blank" rel="noopener">LinkedIn</a>
+</div></footer>
+<script>
+(function(){
+  var io=new IntersectionObserver(function(es){es.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
+    {threshold:.1,rootMargin:'0px 0px -40px 0px'});
+  document.querySelectorAll('.rv').forEach(function(el,i){
+    el.style.transitionDelay=(Math.min(i,5)*55)+'ms';io.observe(el);});
+})();
+</script>
+</body>
+</html>
