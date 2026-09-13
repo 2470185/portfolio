@@ -9,70 +9,40 @@
 <meta property="og:description" content="A multi-turn clinical intake agent, built end to end in 48 hours.">
 <meta property="og:image" content="https://github.com/2470185.png">
 <meta property="og:type" content="website">
-<meta name="theme-color" content="#07070b">
+<meta name="theme-color" content="#ffffff">
 <link rel="icon" href="https://github.com/2470185.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@600;700;800&family=JetBrains+Mono:wght@300;400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="../assets/css/style.css">
-<style>
-.p-hero{padding:132px 0 54px}
-.back{font-family:var(--mono);font-size:12.5px;color:var(--muted);text-decoration:none;display:inline-block;margin-bottom:24px}
-.back:hover{color:var(--accent)}
-.p-hero h1{font-weight:800;font-size:clamp(32px,5vw,54px);margin-bottom:14px}
-.p-one{font-size:clamp(16px,1.9vw,19px);color:var(--muted);max-width:62ch;margin-bottom:20px}
-.p-meta{display:flex;gap:8px;flex-wrap:wrap;align-items:center;margin-bottom:26px}
-.two-col{display:grid;grid-template-columns:1fr 1fr;gap:40px}
-.two-col h3{font-weight:700;font-size:19px;margin-bottom:10px}
-.two-col p{color:var(--muted);font-size:15px}
-.shots{display:flex;flex-direction:column;gap:34px}
-.shot{border:1px solid var(--line);border-radius:var(--radius);overflow:hidden;background:var(--surface)}
-.shot img{width:100%}
-.shot figcaption{padding:13px 18px;color:var(--muted);font-size:13.5px;border-top:1px solid var(--line)}
-.decs{display:flex;flex-direction:column;gap:26px}
-.dec{border-left:2px solid var(--line-hi);padding-left:22px}
-.dec h3{font-weight:700;font-size:18px;margin-bottom:8px}
-.dec p{color:var(--muted);font-size:15px}
-.feats{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
-.feat{border:1px solid var(--line);border-radius:var(--radius);padding:20px;background:var(--surface)}
-.feat h4{font-weight:700;font-size:15.5px;margin-bottom:6px}
-.feat p{color:var(--muted);font-size:14px}
-.limits{list-style:none;display:flex;flex-direction:column;gap:12px;max-width:78ch}
-.limits li{color:var(--muted);font-size:15px;padding-left:20px;position:relative}
-.limits li::before{content:'\2014';position:absolute;left:0;color:var(--dim)}
-.next{display:flex;gap:12px;flex-wrap:wrap;margin-top:8px}
-@media(max-width:900px){.two-col,.feats{grid-template-columns:1fr}section{padding:62px 0}.nav-links{display:none}}
-</style>
 </head>
 <body>
-<div class="mesh"></div><div class="grid-lines"></div>
 <nav><div class="nav-in">
-  <a href="../index.html" class="logo">kuldeep<span>.</span></a>
+  <a href="../index.html" class="logo">Kuldeep Patra</a>
   <ul class="nav-links">
     <li><a href="../index.html#work">Work</a></li>
-    <li><a href="../index.html#skills">Skills</a></li>
+    <li><a href="../index.html#process">Approach</a></li>
     <li><a href="../index.html#about">About</a></li>
-    <li><a href="../index.html#contact">Contact</a></li>
   </ul>
-  <a class="pill" href="../index.html#contact"><span class="dot"></span>Open to AI roles</a>
+  <a class="nav-cta" href="../index.html#contact">Get in touch</a>
 </div></nav>
+
+<div class="aurora" style="height:560px"></div><div class="fade-out" style="top:300px"></div>
 
 <section class="p-hero">
   <div class="wrap">
     <a class="back" href="../index.html#work">&larr; All work</a>
     <h1>AI Patient Intake Agent</h1>
     <p class="p-one">A multi-turn clinical intake agent, built end to end in 48 hours.</p>
-    <div class="p-meta"><span class="tag tag-case">Case study</span><span class="chip">RAG</span><span class="chip">Hybrid retrieval</span><span class="chip">Salesforce</span><span class="chip">Prompt engineering</span><span class="chip">AI safety</span></div>
-    <div class="next">
-      <a class="btn btn-p" href="https://github.com/2470185/ai-patient-intake-agent" target="_blank" rel="noopener">Full technical write-up &#8599;</a>
-    </div>
+    <div class="p-meta"><span class="ribbon case" style="position:static">Case study</span><span class="chip">RAG</span><span class="chip">Hybrid retrieval</span><span class="chip">Salesforce</span><span class="chip">Prompt engineering</span><span class="chip">AI safety</span></div>
+    <div class="next"><a class="btn btn-p" href="https://github.com/2470185/ai-patient-intake-agent" target="_blank" rel="noopener">Full technical write-up &rarr;</a></div>
   </div>
 </section>
 
 <section id="overview">
   <div class="wrap rv">
-    <div class="sec-head"><span class="sec-num">01</span><h2>Overview</h2></div>
-    <div class="two-col">
+    <div class="kicker">Overview</div><h2>The problem, and what I built</h2>
+    <div class="two-col" style="margin-top:26px">
       <div><h3>The problem</h3><p>A multi-location eye-care provider needed an agent that could answer patient
 questions about treatments, locations, hours and insurers, qualify the enquiry, and hand a
 structured lead to the CRM. Forty-eight hours, start to finish.</p></div>
@@ -84,10 +54,48 @@ architecture and the integration decisions rather than in application code.</p><
   </div>
 </section>
 
+<section id="flow">
+  <div class="wrap">
+    <div class="rv"><div class="kicker">Agent design</div><h2>How the flow is wired</h2>
+    <p class="sec-sub">A self-looping agent node holding multi-turn state, with two tools it can
+      call: the clinical knowledge base, and the CRM. Redrawn from the builder canvas.</p></div>
+    <div class="flowbox rv">
+      <svg viewBox="0 0 900 320" style="width:100%;height:auto;display:block" role="img"
+           aria-label="Start feeds a self-looping AI agent, which calls a knowledge base and a CRM, then ends.">
+        <defs>
+          <marker id="ar" markerWidth="9" markerHeight="9" refX="8" refY="4.5" orient="auto">
+            <path d="M0,0 L9,4.5 L0,9 z" fill="#8f97b0"/></marker>
+          <linearGradient id="g1" x1="0" y1="0" x2="1" y2="1">
+            <stop offset="0%" stop-color="#2f6bff"/><stop offset="100%" stop-color="#3fc8e4"/></linearGradient>
+        </defs>
+        <rect x="360" y="18" width="180" height="48" rx="24" fill="#eaf0ff" stroke="#c3d0f5"/>
+        <text x="450" y="47" text-anchor="middle" font-family="Inter,sans-serif" font-size="15" fill="#0a1024">Patient starts chat</text>
+        <line x1="450" y1="66" x2="450" y2="116" stroke="#8f97b0" stroke-width="1.6" marker-end="url(#ar)"/>
+        <rect x="330" y="118" width="240" height="86" rx="16" fill="url(#g1)"/>
+        <text x="450" y="150" text-anchor="middle" font-family="Inter,sans-serif" font-size="16" font-weight="600" fill="#fff">AI Agent</text>
+        <text x="450" y="172" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11.5" fill="#e7f0ff">self-loop &middot; multi-turn state</text>
+        <text x="450" y="190" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11.5" fill="#e7f0ff">5 gambits</text>
+        <path d="M330,140 C285,120 285,196 330,182" fill="none" stroke="#fff" stroke-width="1.6" opacity=".85" marker-end="url(#ar)"/>
+        <rect x="40" y="128" width="210" height="66" rx="14" fill="#fff" stroke="#c3d0f5"/>
+        <text x="145" y="153" text-anchor="middle" font-family="Inter,sans-serif" font-size="14.5" fill="#0a1024">Knowledge Retrieval</text>
+        <text x="145" y="174" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#5d6786">~75 curated pages</text>
+        <line x1="250" y1="161" x2="322" y2="161" stroke="#8f97b0" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+        <rect x="650" y="128" width="210" height="66" rx="14" fill="#fff" stroke="#c3d0f5"/>
+        <text x="755" y="153" text-anchor="middle" font-family="Inter,sans-serif" font-size="14.5" fill="#0a1024">CRM automation</text>
+        <text x="755" y="174" text-anchor="middle" font-family="JetBrains Mono,monospace" font-size="11" fill="#5d6786">Lead + linked Task</text>
+        <line x1="578" y1="161" x2="642" y2="161" stroke="#8f97b0" stroke-width="1.6" stroke-dasharray="5 4" marker-end="url(#ar)"/>
+        <line x1="450" y1="206" x2="450" y2="252" stroke="#8f97b0" stroke-width="1.6" marker-end="url(#ar)"/>
+        <rect x="360" y="254" width="180" height="46" rx="23" fill="#0a1024"/>
+        <text x="450" y="282" text-anchor="middle" font-family="Inter,sans-serif" font-size="14.5" fill="#fff">Booking or handoff</text>
+      </svg>
+    </div>
+  </div>
+</section>
+
 <section id="decisions">
   <div class="wrap">
-    <div class="rv"><div class="sec-head"><span class="sec-num">02</span><h2>Engineering decisions</h2></div>
-    <p class="sec-sub">The parts worth defending in an interview &mdash; and why the alternative was worse.</p></div>
+    <div class="rv"><div class="kicker">Engineering</div><h2>Decisions worth defending</h2>
+    <p class="sec-sub">And why the alternative was worse.</p></div>
     <div class="decs">
       <div class="dec rv"><h3>Chose the data source before building anything</h3><p>I evaluated eight multi-location healthcare sites against fixed criteria — how much content was genuinely crawlable, whether pages were server-rendered, how deep the location and treatment content went. The winner offered roughly 26,000 characters of plain text on a single centre page. Depth of retrievable content beats visual polish, because an agent can only answer from what it can retrieve.</p></div>
       <div class="dec rv"><h3>Diagnosed the retrieval failure two layers down</h3><p>The first knowledge base was useless — the agent answered marketing questions and almost nothing clinical. The cause was that the site splits content across 22 separate sitemaps, so a standard crawl filled the index with promotional pages. The fix was to stop crawling and start targeting: seeding directly with every centre page, all 27 condition pages and the treatment pages, around 75 curated pages. The symptom looked like a prompt problem. It was a data problem.</p></div>
@@ -100,7 +108,7 @@ architecture and the integration decisions rather than in application code.</p><
 
 <section id="features">
   <div class="wrap">
-    <div class="rv"><div class="sec-head"><span class="sec-num">03</span><h2>Features</h2></div></div>
+    <div class="rv"><div class="kicker">Capability</div><h2>Features</h2></div>
     <div class="feats">
       <div class="feat rv"><h4>Retrieval verified before generation</h4><p>Confirmed honest “I don’t know” responses out of scope, and no invented pricing figures — the most tempting hallucination in a healthcare setting.</p></div>
       <div class="feat rv"><h4>Multi-location routing</h4><p>One agent, one knowledge base; asking about different branches returns each branch’s own address, hours and phone number.</p></div>
@@ -114,31 +122,44 @@ architecture and the integration decisions rather than in application code.</p><
 
 <section id="limits">
   <div class="wrap rv">
-    <div class="sec-head"><span class="sec-num">04</span><h2>Known limitations</h2></div>
+    <div class="kicker">Honest assessment</div><h2>Known limitations</h2>
     <p class="sec-sub">What I would fix next, stated plainly.</p>
     <ul class="limits">
       <li>Retrieval was verified by hand; a held-out question set scored on top-k accuracy would catch regressions when the source content changes.</li>
       <li>The index is a snapshot with no re-crawl policy, so hours and insurer lists will drift.</li>
       <li>I found the injected page by reading it. An automated check for instruction-like language at ingest would scale past what I can read myself.</li>
     </ul>
-    <div class="next" style="margin-top:32px">
-      <a class="btn btn-p" href="https://github.com/2470185/ai-patient-intake-agent" target="_blank" rel="noopener">Read the full write-up &#8599;</a>
+    <div class="next" style="margin-top:34px">
+      <a class="btn btn-p" href="https://github.com/2470185/ai-patient-intake-agent" target="_blank" rel="noopener">Read the full write-up &rarr;</a>
       <a class="btn btn-s" href="../index.html#work">Other projects</a>
     </div>
   </div>
 </section>
-<footer><div class="wrap">
-  &copy; 2026 Kuldeep Patra &middot; Bengaluru, India &middot;
-  <a href="https://github.com/2470185" target="_blank" rel="noopener">GitHub</a> &middot;
-  <a href="https://www.linkedin.com/in/kuldeeppatra" target="_blank" rel="noopener">LinkedIn</a>
-</div></footer>
+<footer>
+  <div class="wrap">
+    <p>&copy; 2026 Kuldeep Patra &middot; Bengaluru, India &middot;
+      <a href="https://github.com/2470185" target="_blank" rel="noopener">GitHub</a> &middot;
+      <a href="https://www.linkedin.com/in/kuldeeppatra" target="_blank" rel="noopener">LinkedIn</a> &middot;
+      <a href="mailto:kuldeeppatra8@gmail.com">Email</a></p>
+    <div class="wordmark">Kuldeep Patra</div>
+  </div>
+</footer>
 <script>
 (function(){
   var io=new IntersectionObserver(function(es){es.forEach(function(e){
     if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
-    {threshold:.1,rootMargin:'0px 0px -40px 0px'});
+    {threshold:.08,rootMargin:'0px 0px -50px 0px'});
   document.querySelectorAll('.rv').forEach(function(el,i){
-    el.style.transitionDelay=(Math.min(i,5)*55)+'ms';io.observe(el);});
+    el.style.transitionDelay=(Math.min(i,6)*70)+'ms';io.observe(el);});
+
+  // subtle parallax on the hero gradient
+  var au=document.querySelector('.aurora');
+  if(au && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
+    window.addEventListener('scroll',function(){
+      var y=window.scrollY;
+      if(y<900) au.style.transform='translateY('+(y*0.16)+'px)';
+    },{passive:true});
+  }
 })();
 </script>
 </body>
