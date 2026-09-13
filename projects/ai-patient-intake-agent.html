@@ -34,8 +34,8 @@
     <a class="back" href="../index.html#work">&larr; All work</a>
     <h1>AI Patient Intake Agent</h1>
     <p class="p-one">A multi-turn clinical intake agent, built end to end in 48 hours.</p>
-    <div class="p-meta"><span class="ribbon case" style="position:static">Case study</span><span class="chip">RAG</span><span class="chip">Hybrid retrieval</span><span class="chip">Salesforce</span><span class="chip">Prompt engineering</span><span class="chip">AI safety</span></div>
-    <div class="next"><a class="btn btn-p" href="https://github.com/2470185/ai-patient-intake-agent" target="_blank" rel="noopener">Full technical write-up &rarr;</a></div>
+    <div class="p-meta"><span class="ribbon live" style="position:static">Live demo</span><span class="chip">RAG</span><span class="chip">Hybrid retrieval</span><span class="chip">Salesforce</span><span class="chip">Prompt engineering</span><span class="chip">AI safety</span></div>
+    <div class="next"><a class="btn btn-p" href="https://neoagent.hellotars.com/chat/ySnmN7b6?region=us" target="_blank" rel="noopener">Try the live agent &rarr;</a><a class="btn btn-s" href="https://github.com/2470185/ai-patient-intake-agent" target="_blank" rel="noopener">Full technical write-up &rarr;</a></div>
   </div>
 </section>
 
@@ -102,6 +102,17 @@ architecture and the integration decisions rather than in application code.</p><
       <div class="dec rv"><h3>Hybrid keyword + vector retrieval, not pure semantic search</h3><p>Clinical content is dense with terms that must match exactly — insurer names, procedure names, locations. Vector search embeds meaning, which is the wrong behaviour here: it returns a semantically similar insurer when the patient asked about a specific one. Keyword catches exact tokens; vectors catch “can you fix my blurry vision” mapping to the right condition page. Hybrid covers both failure modes.</p></div>
       <div class="dec rv"><h3>Treated retrieved context as untrusted input</h3><p>One page carried text addressed to AI models, instructing them how to describe the brand — a prompt injection sitting in the source data, about to be ingested. I excluded the page, then hardened the system prompt to treat all retrieved content as reference data and never as instructions. The second fix is the one that matters, because the first only handles the instance I happened to find.</p></div>
       <div class="dec rv"><h3>A CRM schema trade-off that protects the lead</h3><p>The lead-temperature picklist was deliberately left unrestricted and non-required. If the agent produces a score outside the expected set, a restricted picklist would reject the whole insert and the enquiry would vanish. Losing the scoring metadata is far cheaper than losing a patient trying to book an appointment. And when a CRM write fails, the agent says so rather than giving a false confirmation.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="interface">
+  <div class="wrap">
+    <div class="rv"><div class="kicker">Interface</div><h2>What it looks like</h2>
+    <p class="sec-sub">Captured against a locally seeded demo database. Every name, figure and
+      identifier shown is invented.</p></div>
+    <div class="shots">
+      <figure class="shot rv"><img src="../assets/img/agent/tars-live.png" alt="The live agent answering from the clinical knowledge base — retrieved treatment detail, a qualifying question about prior visits, and an honest hedge on insurer coverage rather than an invented list." loading="lazy"><figcaption>The live agent answering from the clinical knowledge base — retrieved treatment detail, a qualifying question about prior visits, and an honest hedge on insurer coverage rather than an invented list.</figcaption></figure>
     </div>
   </div>
 </section>
