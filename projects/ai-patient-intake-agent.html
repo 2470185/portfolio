@@ -54,6 +54,44 @@ architecture and the integration decisions rather than in application code.</p><
   </div>
 </section>
 
+<section id="brief">
+  <div class="wrap">
+    <div class="rv"><div class="kicker">The brief</div><h2>What was asked, and what was delivered</h2>
+    <p class="sec-sub">A technical assignment: build an AI agent for a multi-location healthcare
+      clinic to handle patient enquiries and bring in appointment requests. The brief invited
+      candidates to use any real-world clinic as source material, so I chose a public
+      multi-location eye-care provider and worked against their live website.</p></div>
+    <div class="reqs">
+      <div class="req rv"><span class="req-tag core">Required</span>
+        <h4>Answer from a knowledge base trained on the clinic&rsquo;s website</h4>
+        <p>~75 curated pages indexed with hybrid keyword + vector retrieval, after diagnosing why
+          a naive crawl returned marketing pages instead of clinical content.</p></div>
+      <div class="req rv"><span class="req-tag core">Required</span>
+        <h4>Capture appointment requests as a Lead in Salesforce</h4>
+        <p>Contact details, preferred centre, preferred timing and reason for visit written to a
+          Lead, with an honest failure path if the CRM write does not succeed.</p></div>
+      <div class="req rv"><span class="req-tag core">Required</span>
+        <h4>Tell a first-time visitor from an existing patient</h4>
+        <p>The agent asks before it assumes, and routes each down a different path &mdash; the two
+          cases need different information and a different tone.</p></div>
+      <div class="req rv"><span class="req-tag bonus">Brownie point</span>
+        <h4>Store the full conversation as a Task against the Lead</h4>
+        <p>The whole transcript is attached to the Lead as a linked Task, so whoever follows up has
+          the context rather than a name and a phone number.</p></div>
+      <div class="req rv"><span class="req-tag bonus">Brownie point</span>
+        <h4>Carry lead quality as a temperature field</h4>
+        <p>A hot/warm/cold rating with the scoring rationale, so the sales team knows who to call
+          first &mdash; deliberately on an unrestricted picklist, so a scoring mismatch can never
+          block the Lead insert.</p></div>
+      <div class="req rv"><span class="req-tag extra">Beyond the brief</span>
+        <h4>Clinical safety guardrails</h4>
+        <p>No pricing estimates, no diagnosis or medication guidance, and an emergency intercept
+          that routes sudden vision loss or ocular trauma to emergency care instead of the
+          booking flow.</p></div>
+    </div>
+  </div>
+</section>
+
 <section id="flow">
   <div class="wrap">
     <div class="rv"><div class="kicker">Agent design</div><h2>How the flow is wired</h2>
