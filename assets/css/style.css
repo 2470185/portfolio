@@ -313,7 +313,8 @@ h2::after{content:'';position:absolute;left:0;bottom:-9px;height:2px;width:100%;
   background:linear-gradient(90deg,var(--blue),var(--cyan));
   transform:scaleX(0);transform-origin:0 50%;transition:transform .7s cubic-bezier(.2,.7,.3,1) .12s}
 .rv.in h2::after,.in h2::after{transform:scaleX(1)}
-.center h2::after{transform-origin:50% 50%}
+.center h2::after{transform-origin:50% 50%;left:50%;width:72px;transform:translateX(-50%) scaleX(0)}
+.center .rv.in h2::after,.center .in h2::after{transform:translateX(-50%) scaleX(1)}
 
 /* screenshots ease up as they enter */
 .shot{transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s}
@@ -365,15 +366,12 @@ footer:hover .wordmark{opacity:.86}
 .wipe.wiped::before{transform:scaleY(0)}
 
 /* parallax inside card images */
-.work-media img{transform:scale(1.045) translate3d(var(--ix,0),var(--iy,0),0);
-  transition:transform .42s cubic-bezier(.2,.7,.3,1)}
-.work:hover .work-media img{transform:scale(1.1) translate3d(var(--ix,0),var(--iy,0),0)}
+.work-media img{transform:translate3d(var(--ix,0),var(--iy,0),0);
+  transition:transform .45s cubic-bezier(.2,.7,.3,1)}
+.work:hover .work-media img{transform:scale(1.055) translate3d(var(--ix,0),var(--iy,0),0)}
 
-/* work grid skews with scroll velocity */
-.works{transform:skewY(var(--skew,0deg));transition:transform .42s cubic-bezier(.2,.7,.3,1)}
-
-/* marquee drifts with scroll as well as time */
-.marquee-track{transform:translateX(calc(var(--mq-shift,0px) * -1))}
+/* the work grid stays square. A velocity skew was tried here and removed:
+   on a grid of rectangular cards it reads as a broken layout, not motion. */
 
 /* magnetic buttons */
 .btn,.nav-cta{transform:translate3d(var(--bx,0),var(--by,0),0);
@@ -399,6 +397,9 @@ footer:hover .wordmark{opacity:.86}
   background:linear-gradient(90deg,var(--blue),var(--cyan));
   transition:width .55s cubic-bezier(.2,.7,.3,1) .1s}
 .rv.in .kicker::before,.in .kicker::before{width:24px}
+/* centred sections have no left edge to draw from */
+.center .kicker{padding-left:0!important}
+.center .kicker::before{display:none}
 
 /* process step numbers count into view */
 .step-n{transition:transform .5s cubic-bezier(.2,.8,.3,1),color .4s}
@@ -421,7 +422,6 @@ footer:hover .wordmark{opacity:.86}
   .hero h1 .word-mask{overflow:visible}
   .wipe::before{display:none}
   .works{transform:none!important}
-  .marquee-track{transform:none!important}
   .btn,.nav-cta{transform:none!important}
   .work::after,.skillcard::after{display:none}
   .kicker,.rv.in .kicker{padding-left:0!important}

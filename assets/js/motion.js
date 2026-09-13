@@ -181,10 +181,8 @@
   /* ---------- scroll-driven: bar, nav, parallax, velocity skew ---------- */
   var nav = document.querySelector('nav');
   var aurora = document.querySelector('.aurora');
-  var works = document.querySelector('.works');
-  var track = document.querySelector('.marquee-track');
   var doc = document.documentElement;
-  var ticking = false, lastY = window.scrollY, vel = 0;
+  var ticking = false;
 
   function onScroll() {
     if (ticking) return;
@@ -196,12 +194,8 @@
       bar.style.transform = 'scaleX(' + (max > 0 ? y / max : 0) + ')';
       if (nav) nav.classList.toggle('scrolled', y > 40);
 
-      if (!reduced) {
-        vel = vel * 0.8 + (y - lastY) * 0.2;
-        lastY = y;
-        if (aurora && y < 1000) aurora.style.transform = 'translateY(' + (y * 0.16).toFixed(1) + 'px)';
-        if (works) works.style.setProperty('--skew', Math.max(-2.2, Math.min(2.2, vel * 0.07)).toFixed(2) + 'deg');
-        if (track) track.style.setProperty('--mq-shift', (y * 0.18).toFixed(1) + 'px');
+      if (!reduced && aurora && y < 1000) {
+        aurora.style.transform = 'translateY(' + (y * 0.16).toFixed(1) + 'px)';
       }
     });
   }
