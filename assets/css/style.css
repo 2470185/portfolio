@@ -231,3 +231,108 @@ footer a:hover{color:var(--ink)}
 .req h4{font-size:16px;margin-bottom:7px;line-height:1.3}
 .req p{color:var(--muted);font-size:14px}
 @media(max-width:960px){.reqs{grid-template-columns:1fr}}
+
+/* ============ motion layer ============ */
+
+/* scroll progress */
+.scroll-bar{position:fixed;top:0;left:0;height:2.5px;width:100%;z-index:400;
+  transform:scaleX(0);transform-origin:0 50%;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  transition:transform .08s linear;pointer-events:none}
+
+/* nav condenses once you leave the hero */
+nav{transition:top .3s cubic-bezier(.2,.7,.3,1)}
+.nav-in{transition:padding .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s,background .3s}
+nav.scrolled{top:8px}
+nav.scrolled .nav-in{padding:7px 10px 7px 18px;box-shadow:0 10px 30px rgba(16,32,84,.13);
+  background:rgba(255,255,255,.92)}
+.nav-links a{position:relative}
+.nav-links a::after{content:'';position:absolute;left:0;right:0;bottom:-5px;height:1.5px;
+  background:var(--blue);transform:scaleX(0);transform-origin:100% 50%;transition:transform .3s cubic-bezier(.2,.7,.3,1)}
+.nav-links a:hover::after,.nav-links a[aria-current]::after{transform:scaleX(1);transform-origin:0 50%}
+.nav-links a[aria-current]{color:var(--ink)}
+
+/* hero headline, word by word */
+.hero h1 .word{display:inline-block;opacity:0;transform:translateY(28px) rotate(1.5deg);filter:blur(5px)}
+.hero h1.words-ready .word{animation:wordIn .78s cubic-bezier(.2,.75,.25,1) forwards}
+@keyframes wordIn{to{opacity:1;transform:none;filter:blur(0)}}
+
+/* aurora drifts slowly so the hero is never completely static */
+.aurora::before{animation:drift 22s ease-in-out infinite alternate}
+.aurora::after{animation:drift2 18s ease-in-out infinite alternate}
+@keyframes drift{
+  0%{transform:translateX(-50%) scale(1)}
+  100%{transform:translateX(-46%) scale(1.09)}}
+@keyframes drift2{
+  0%{transform:translateX(-46%) scale(1.04)}
+  100%{transform:translateX(-52%) scale(.95)}}
+
+/* badge + stat entrance */
+.badge{animation:floatIn .8s cubic-bezier(.2,.75,.25,1) both}
+.hero-sub{animation:floatIn .8s .45s cubic-bezier(.2,.75,.25,1) both}
+.portrait-wrap{animation:popIn .9s .58s cubic-bezier(.2,.8,.25,1) both}
+.hero-cta{animation:floatIn .8s .72s cubic-bezier(.2,.75,.25,1) both}
+.stat-row{animation:floatIn .8s .84s cubic-bezier(.2,.75,.25,1) both}
+@keyframes floatIn{from{opacity:0;transform:translateY(18px)}to{opacity:1;transform:none}}
+@keyframes popIn{from{opacity:0;transform:scale(.9)}to{opacity:1;transform:none}}
+.portrait-wrap::after{content:'';position:absolute;inset:-14px;border-radius:50%;z-index:-1;
+  background:conic-gradient(from 0deg,var(--blue),var(--cyan),var(--blue-3),var(--blue));
+  filter:blur(22px);opacity:.42;animation:spin 14s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+
+/* stat cards lift individually */
+.stat{transition:transform .25s cubic-bezier(.2,.7,.3,1),box-shadow .25s}
+.stat:hover{transform:translateY(-5px);box-shadow:var(--shadow-lg)}
+.stat b{font-variant-numeric:tabular-nums}
+
+/* pointer-tracked tilt + glow */
+.tiltable{transform-style:preserve-3d;position:relative;
+  transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg));
+  transition:transform .28s cubic-bezier(.2,.7,.3,1),box-shadow .28s,border-color .28s}
+.tiltable::before{content:'';position:absolute;inset:0;border-radius:inherit;pointer-events:none;
+  opacity:0;transition:opacity .3s;z-index:1;
+  background:radial-gradient(340px circle at var(--mx,50%) var(--my,50%),
+    rgba(47,107,255,.10),transparent 62%)}
+.tiltable:hover::before{opacity:1}
+.work.tiltable:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-6px)}
+.step.tiltable:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-8px)}
+.step:nth-child(2).tiltable{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-16px)}
+.step:nth-child(2).tiltable:hover{transform:perspective(900px) rotateX(var(--rx,0deg)) rotateY(var(--ry,0deg)) translateY(-24px)}
+
+/* button shine sweep */
+.btn{position:relative;overflow:hidden}
+.btn::after{content:'';position:absolute;top:0;left:-120%;width:55%;height:100%;
+  background:linear-gradient(100deg,transparent,rgba(255,255,255,.42),transparent);
+  transform:skewX(-18deg);transition:left .62s cubic-bezier(.2,.7,.3,1)}
+.btn:hover::after{left:135%}
+.btn-s::after{background:linear-gradient(100deg,transparent,rgba(47,107,255,.14),transparent)}
+
+/* section headings get a drawn rule */
+h2{position:relative;display:inline-block}
+h2::after{content:'';position:absolute;left:0;bottom:-9px;height:2px;width:100%;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  transform:scaleX(0);transform-origin:0 50%;transition:transform .7s cubic-bezier(.2,.7,.3,1) .12s}
+.rv.in h2::after,.in h2::after{transform:scaleX(1)}
+.center h2::after{transform-origin:50% 50%}
+
+/* screenshots ease up as they enter */
+.shot{transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s}
+.shot:hover{transform:translateY(-4px);box-shadow:var(--shadow-lg)}
+
+/* chips react to hover */
+.chip,.skillcard span{transition:transform .18s,border-color .18s,background .18s,color .18s}
+.chip:hover,.skillcard span:hover{transform:translateY(-2px);border-color:var(--line-hi);
+  background:var(--blue-soft);color:var(--blue)}
+
+/* wordmark breathes */
+.wordmark{transition:opacity .6s}
+footer:hover .wordmark{opacity:.86}
+
+@media(prefers-reduced-motion:reduce){
+  .scroll-bar,.aurora::before,.aurora::after,.portrait-wrap::after{animation:none!important}
+  .hero h1 .word{opacity:1!important;transform:none!important;filter:none!important;animation:none!important}
+  .badge,.hero-sub,.portrait-wrap,.hero-cta,.stat-row{animation:none!important;opacity:1!important;transform:none!important}
+  .tiltable{transform:none!important}
+  h2::after{transition:none;transform:scaleX(1)}
+  .btn::after{display:none}
+}

@@ -193,23 +193,6 @@ architecture and the integration decisions rather than in application code.</p><
     <div class="wordmark">Kuldeep Patra</div>
   </div>
 </footer>
-<script>
-(function(){
-  var io=new IntersectionObserver(function(es){es.forEach(function(e){
-    if(e.isIntersecting){e.target.classList.add('in');io.unobserve(e.target);}});},
-    {threshold:.08,rootMargin:'0px 0px -50px 0px'});
-  document.querySelectorAll('.rv').forEach(function(el,i){
-    el.style.transitionDelay=(Math.min(i,6)*70)+'ms';io.observe(el);});
-
-  // subtle parallax on the hero gradient
-  var au=document.querySelector('.aurora');
-  if(au && !window.matchMedia('(prefers-reduced-motion: reduce)').matches){
-    window.addEventListener('scroll',function(){
-      var y=window.scrollY;
-      if(y<900) au.style.transform='translateY('+(y*0.16)+'px)';
-    },{passive:true});
-  }
-})();
-</script>
+<script src="../assets/js/motion.js" defer></script>
 </body>
 </html>
