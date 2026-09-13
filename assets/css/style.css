@@ -336,3 +336,96 @@ footer:hover .wordmark{opacity:.86}
   h2::after{transition:none;transform:scaleX(1)}
   .btn::after{display:none}
 }
+
+/* ============ motion layer II ============ */
+
+/* film grain — depth without weight */
+.grain{position:fixed;inset:0;z-index:300;pointer-events:none;opacity:.028;
+  background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='3'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  animation:grainShift 7s steps(6) infinite}
+@keyframes grainShift{
+  0%{transform:translate(0,0)}20%{transform:translate(-3%,2%)}40%{transform:translate(2%,-3%)}
+  60%{transform:translate(-2%,-2%)}80%{transform:translate(3%,1%)}100%{transform:translate(0,0)}}
+
+/* headline words rise out of a mask */
+.hero h1 .word-mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
+.hero h1 .word{display:inline-block;opacity:0;transform:translateY(102%) rotate(2deg)}
+.hero h1.words-ready .word{animation:wordRise .95s cubic-bezier(.16,.84,.24,1) forwards}
+@keyframes wordRise{to{opacity:1;transform:none}}
+
+/* curtain wipe for media blocks.
+   The element itself is never clipped: an element with zero visible area has an
+   empty intersection rectangle, so the observer that reveals it would never
+   fire. A pseudo-element curtain slides away instead. */
+.wipe{position:relative;isolation:isolate}
+.wipe::before{content:'';position:absolute;inset:0;z-index:5;pointer-events:none;
+  background:linear-gradient(180deg,#f6f8fe,#eaf0ff);
+  transform-origin:50% 100%;transform:scaleY(1);
+  transition:transform 1s cubic-bezier(.16,.84,.24,1)}
+.wipe.wiped::before{transform:scaleY(0)}
+
+/* parallax inside card images */
+.work-media img{transform:scale(1.045) translate3d(var(--ix,0),var(--iy,0),0);
+  transition:transform .42s cubic-bezier(.2,.7,.3,1)}
+.work:hover .work-media img{transform:scale(1.1) translate3d(var(--ix,0),var(--iy,0),0)}
+
+/* work grid skews with scroll velocity */
+.works{transform:skewY(var(--skew,0deg));transition:transform .42s cubic-bezier(.2,.7,.3,1)}
+
+/* marquee drifts with scroll as well as time */
+.marquee-track{transform:translateX(calc(var(--mq-shift,0px) * -1))}
+
+/* magnetic buttons */
+.btn,.nav-cta{transform:translate3d(var(--bx,0),var(--by,0),0);
+  transition:transform .28s cubic-bezier(.2,.8,.3,1),box-shadow .2s,background .2s,border-color .2s}
+.btn:hover{transform:translate3d(var(--bx,0),calc(var(--by,0px) - 2px),0)}
+
+/* animated gradient border on hover */
+.work::after,.skillcard::after{content:'';position:absolute;inset:0;border-radius:inherit;
+  padding:1px;pointer-events:none;opacity:0;transition:opacity .35s;z-index:4;
+  background:linear-gradient(130deg,var(--blue),var(--cyan),var(--blue-3),var(--blue));
+  background-size:280% 280%;
+  -webkit-mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  -webkit-mask-composite:xor;mask:linear-gradient(#000 0 0) content-box,linear-gradient(#000 0 0);
+  mask-composite:exclude}
+.work:hover::after,.skillcard:hover::after{opacity:1;animation:borderFlow 3.4s linear infinite}
+@keyframes borderFlow{to{background-position:280% 50%}}
+.skillcard{position:relative}
+
+/* kicker slides in with its own rule */
+.kicker{position:relative;padding-left:0;transition:padding-left .5s cubic-bezier(.2,.7,.3,1)}
+.rv.in .kicker,.in .kicker{padding-left:34px}
+.kicker::before{content:'';position:absolute;left:0;top:50%;height:1.5px;width:0;
+  background:linear-gradient(90deg,var(--blue),var(--cyan));
+  transition:width .55s cubic-bezier(.2,.7,.3,1) .1s}
+.rv.in .kicker::before,.in .kicker::before{width:24px}
+
+/* process step numbers count into view */
+.step-n{transition:transform .5s cubic-bezier(.2,.8,.3,1),color .4s}
+.step:hover .step-n{transform:translateY(-4px) scale(1.06);color:var(--blue)}
+
+/* requirement tags pulse once on reveal */
+.req.in .req-tag,.rv.in .req-tag{animation:tagPop .5s cubic-bezier(.2,.8,.3,1) both}
+@keyframes tagPop{from{opacity:0;transform:scale(.86)}to{opacity:1;transform:none}}
+
+/* limits list draws its dash */
+.limits li::before{width:0;transition:width .45s cubic-bezier(.2,.7,.3,1)}
+.rv.in .limits li::before{width:9px}
+.rv.in .limits li:nth-child(2)::before{transition-delay:.08s}
+.rv.in .limits li:nth-child(3)::before{transition-delay:.16s}
+.rv.in .limits li:nth-child(4)::before{transition-delay:.24s}
+
+@media(prefers-reduced-motion:reduce){
+  .grain{display:none}
+  .hero h1 .word{opacity:1!important;transform:none!important;animation:none!important}
+  .hero h1 .word-mask{overflow:visible}
+  .wipe::before{display:none}
+  .works{transform:none!important}
+  .marquee-track{transform:none!important}
+  .btn,.nav-cta{transform:none!important}
+  .work::after,.skillcard::after{display:none}
+  .kicker,.rv.in .kicker{padding-left:0!important}
+  .kicker::before{display:none}
+  .limits li::before{width:9px!important}
+  .work-media img{transform:none!important}
+}
