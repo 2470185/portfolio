@@ -27,10 +27,20 @@
     });
   }, { threshold: 0.08, rootMargin: '0px 0px -50px 0px' });
 
-  document.querySelectorAll('.rv').forEach(function (el, i) {
+  var rvAll = document.querySelectorAll('.rv');
+  rvAll.forEach(function (el, i) {
     el.style.transitionDelay = (Math.min(i, 6) * 70) + 'ms';
     io.observe(el);
   });
+
+  // .rv hides real content at opacity 0, so it must never be able to withhold
+  // it. If the observer has not fired for something by now, show it anyway.
+  setTimeout(function () {
+    rvAll.forEach(function (el) {
+      var r = el.getBoundingClientRect();
+      if (r.top < window.innerHeight && r.bottom > 0) el.classList.add('in');
+    });
+  }, 4000);
 
   /* ---------- mask-wipe reveal for media and headings ---------- */
   if (!reduced) {
@@ -178,6 +188,62 @@
     });
   }
 
+
+  /* ---------- hero pointer spotlight ---------- */
+  var hero = document.querySelector('.hero');
+  if (hero && !reduced && !coarse) {
+    var heroPending = null;
+    hero.addEventListener('pointermove', function (ev) {
+      if (heroPending) return;
+      heroPending = raf(function () {
+        heroPending = null;
+        var r = hero.getBoundingClientRect();
+        hero.style.setProperty('--hx', (((ev.clientX - r.left) / r.width) * 100).toFixed(1) + '%');
+        hero.style.setProperty('--hy', (((ev.clientY - r.top) / r.height) * 100).toFixed(1) + '%');
+        hero.classList.add('lit');
+      });
+    }, { passive: true });
+    hero.addEventListener('pointerleave', function () { hero.classList.remove('lit'); });
+  }
+
+  /* ---------- scroll cue ---------- */
+  var cue = null;
+  if (hero && !reduced) {
+    var stats = hero.querySelector('.stat-row');
+    if (stats && stats.parentNode) {
+      cue = document.createElement('div');
+      cue.className = 'cue';
+      cue.setAttribute('aria-hidden', 'true');
+      cue.innerHTML = '<i></i><em style="font-style:normal">Scroll</em>';
+      stats.parentNode.insertBefore(cue, stats.nextSibling);
+    }
+  }
+
+  /* ---------- scroll progress ring / back to top ---------- */
+  var toTop = document.createElement('button');
+  toTop.className = 'totop';
+  toTop.type = 'button';
+  toTop.setAttribute('aria-label', 'Back to top');
+  toTop.innerHTML =
+    '<svg viewBox="0 0 46 46" aria-hidden="true">' +
+    '<circle class="trk" cx="23" cy="23" r="21"></circle>' +
+    '<circle class="val" cx="23" cy="23" r="21"></circle></svg><span>↑</span>';
+  toTop.addEventListener('click', function () {
+    if (reduced) { window.scrollTo(0, 0); return; }
+    var startY = window.scrollY, t0 = null;
+    var dur = Math.min(900, 380 + startY * 0.24);
+    raf(function step(ts) {
+      if (!t0) t0 = ts;
+      var p = Math.min((ts - t0) / dur, 1);
+      window.scrollTo(0, startY * (1 - (1 - Math.pow(1 - p, 3))));
+      if (p < 1) raf(step);
+    });
+  });
+  document.body.appendChild(toTop);
+
+  /* ---------- about portrait drifts against the scroll ---------- */
+  var aboutImg = document.querySelector('.about-photo img');
+
   /* ---------- scroll-driven: bar, nav, parallax, velocity skew ---------- */
   var nav = document.querySelector('nav');
   var aurora = document.querySelector('.aurora');
@@ -196,6 +262,21 @@
 
       if (!reduced && aurora && y < 1000) {
         aurora.style.transform = 'translateY(' + (y * 0.16).toFixed(1) + 'px)';
+      }
+
+      var p = max > 0 ? y / max : 0;
+      toTop.style.setProperty('--p', p.toFixed(4));
+      toTop.classList.toggle('show', y > window.innerHeight * 0.75);
+
+      if (cue) cue.classList.toggle('gone', y > 60);
+
+      if (!reduced && aboutImg) {
+        var ar = aboutImg.getBoundingClientRect();
+        if (ar.bottom > 0 && ar.top < window.innerHeight) {
+          // -1..1 across the viewport, so the drift is centred on the element
+          var mid = (ar.top + ar.height / 2 - window.innerHeight / 2) / window.innerHeight;
+          aboutImg.style.setProperty('--ay', (mid * -18).toFixed(1) + 'px');
+        }
       }
     });
   }

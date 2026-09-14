@@ -93,7 +93,11 @@ section{padding:96px 0;position:relative;z-index:2}
 h2{font-size:clamp(30px,4.4vw,48px);margin-bottom:14px}
 .sec-sub{color:var(--muted);font-size:16px;max-width:62ch;margin-bottom:48px}
 .center{text-align:center}
-.center .sec-sub{margin-left:auto;margin-right:auto}
+/* `center` is used two ways in the markup — on a wrapper and on the element
+   itself — and the contact section centres through .cta rather than the
+   utility class. A descendant-only selector misses both, which leaves a
+   62ch block flush left with its text centred inside it. */
+.center .sec-sub,.sec-sub.center,.cta .sec-sub{margin-left:auto;margin-right:auto}
 
 /* ---------- process cards ---------- */
 .process{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
@@ -212,7 +216,9 @@ footer a:hover{color:var(--ink)}
   section{padding:68px 0}
   .hero{padding:124px 0 40px}
 }
+
 @media(prefers-reduced-motion:reduce){
+
   *{animation:none!important;transition:none!important}
   .rv{opacity:1;transform:none}
   html{scroll-behavior:auto}
@@ -252,10 +258,13 @@ nav.scrolled .nav-in{padding:7px 10px 7px 18px;box-shadow:0 10px 30px rgba(16,32
 .nav-links a:hover::after,.nav-links a[aria-current]::after{transform:scaleX(1);transform-origin:0 50%}
 .nav-links a[aria-current]{color:var(--ink)}
 
-/* hero headline, word by word */
-.hero h1 .word{display:inline-block;opacity:0;transform:translateY(28px) rotate(1.5deg);filter:blur(5px)}
+/* hero headline, word by word.
+   No filter in the base state: the mask-rise rule further down redefines
+   .word without resetting filter and its keyframe never clears one, so a
+   blur declared here would sit on the headline permanently. */
+.hero h1 .word{display:inline-block;opacity:0;transform:translateY(28px) rotate(1.5deg)}
 .hero h1.words-ready .word{animation:wordIn .78s cubic-bezier(.2,.75,.25,1) forwards}
-@keyframes wordIn{to{opacity:1;transform:none;filter:blur(0)}}
+@keyframes wordIn{to{opacity:1;transform:none}}
 
 /* aurora drifts slowly so the hero is never completely static */
 .aurora::before{animation:drift 22s ease-in-out infinite alternate}
@@ -313,8 +322,10 @@ h2::after{content:'';position:absolute;left:0;bottom:-9px;height:2px;width:100%;
   background:linear-gradient(90deg,var(--blue),var(--cyan));
   transform:scaleX(0);transform-origin:0 50%;transition:transform .7s cubic-bezier(.2,.7,.3,1) .12s}
 .rv.in h2::after,.in h2::after{transform:scaleX(1)}
-.center h2::after{transform-origin:50% 50%;left:50%;width:72px;transform:translateX(-50%) scaleX(0)}
-.center .rv.in h2::after,.center .in h2::after{transform:translateX(-50%) scaleX(1)}
+.center h2::after,.cta h2::after{transform-origin:50% 50%;left:50%;width:72px;
+  transform:translateX(-50%) scaleX(0)}
+.center .rv.in h2::after,.center .in h2::after,
+.cta .rv.in h2::after,.cta .in h2::after{transform:translateX(-50%) scaleX(1)}
 
 /* screenshots ease up as they enter */
 .shot{transition:transform .3s cubic-bezier(.2,.7,.3,1),box-shadow .3s}
@@ -350,9 +361,10 @@ footer:hover .wordmark{opacity:.86}
 
 /* headline words rise out of a mask */
 .hero h1 .word-mask{display:inline-block;overflow:hidden;vertical-align:bottom;padding-bottom:.06em}
-.hero h1 .word{display:inline-block;opacity:0;transform:translateY(102%) rotate(2deg)}
+.hero h1 .word{display:inline-block;opacity:0;filter:none;
+  transform:translateY(102%) rotate(2deg)}
 .hero h1.words-ready .word{animation:wordRise .95s cubic-bezier(.16,.84,.24,1) forwards}
-@keyframes wordRise{to{opacity:1;transform:none}}
+@keyframes wordRise{to{opacity:1;transform:none;filter:none}}
 
 /* curtain wipe for media blocks.
    The element itself is never clipped: an element with zero visible area has an
@@ -390,16 +402,19 @@ footer:hover .wordmark{opacity:.86}
 @keyframes borderFlow{to{background-position:280% 50%}}
 .skillcard{position:relative}
 
-/* kicker slides in with its own rule */
-.kicker{position:relative;padding-left:0;transition:padding-left .5s cubic-bezier(.2,.7,.3,1)}
-.rv.in .kicker,.in .kicker{padding-left:34px}
-.kicker::before{content:'';position:absolute;left:0;top:50%;height:1.5px;width:0;
+/* kicker draws its own rule as it reveals.
+   The dash is in flow, not absolutely positioned: an absolute left:0 dash
+   anchors to the container edge, which on a centred section leaves it
+   stranded far from the text it belongs to. Growing an inline-block and
+   its margin keeps it beside the text at any alignment, and it needs no
+   per-section override. */
+.kicker{position:relative}
+.kicker::before{content:'';display:inline-block;vertical-align:middle;
+  height:1.5px;width:0;margin-right:0;border-radius:1px;
   background:linear-gradient(90deg,var(--blue),var(--cyan));
-  transition:width .55s cubic-bezier(.2,.7,.3,1) .1s}
-.rv.in .kicker::before,.in .kicker::before{width:24px}
-/* centred sections have no left edge to draw from */
-.center .kicker{padding-left:0!important}
-.center .kicker::before{display:none}
+  transition:width .55s cubic-bezier(.2,.7,.3,1) .1s,
+             margin-right .55s cubic-bezier(.2,.7,.3,1) .1s}
+.rv.in .kicker::before,.in .kicker::before{width:24px;margin-right:10px}
 
 /* process step numbers count into view */
 .step-n{transition:transform .5s cubic-bezier(.2,.8,.3,1),color .4s}
@@ -424,8 +439,135 @@ footer:hover .wordmark{opacity:.86}
   .works{transform:none!important}
   .btn,.nav-cta{transform:none!important}
   .work::after,.skillcard::after{display:none}
-  .kicker,.rv.in .kicker{padding-left:0!important}
   .kicker::before{display:none}
   .limits li::before{width:9px!important}
   .work-media img{transform:none!important}
+}
+
+/* =====================================================================
+   Motion layer 3 — ambient and interaction detail.
+   Everything below is decoration: no content depends on it, and the
+   reduced-motion block at the end of this file switches all of it off.
+   ===================================================================== */
+
+/* pointer spotlight across the hero */
+.hero::after{content:'';position:absolute;inset:0;z-index:1;pointer-events:none;
+  opacity:0;transition:opacity .5s;
+  background:radial-gradient(420px circle at var(--hx,50%) var(--hy,40%),
+    rgba(47,107,255,.13),rgba(63,200,228,.05) 45%,transparent 68%)}
+.hero.lit::after{opacity:1}
+
+/* scroll cue — injected by the motion script, fades once you move */
+.cue{position:relative;z-index:3;margin:40px auto 0;width:max-content;
+  display:flex;flex-direction:column;align-items:center;gap:7px;
+  font-family:var(--mono);font-size:10px;letter-spacing:.16em;text-transform:uppercase;
+  color:var(--dim);opacity:0;pointer-events:none;
+  animation:cueIn .7s 1.5s cubic-bezier(.2,.75,.25,1) forwards;
+  transition:opacity .35s,transform .35s}
+.cue.gone{opacity:0!important;transform:translateY(10px)}
+.cue i{display:block;width:1px;height:30px;border-radius:1px;
+  background:linear-gradient(180deg,var(--blue),transparent);
+  animation:cueRun 1.9s ease-in-out infinite}
+@keyframes cueIn{to{opacity:1}}
+@keyframes cueRun{0%{transform:scaleY(.25);transform-origin:50% 0}
+  50%{transform:scaleY(1);transform-origin:50% 0}
+  51%{transform:scaleY(1);transform-origin:50% 100%}
+  100%{transform:scaleY(.25);transform-origin:50% 100%}}
+
+/* Tags arrive one after another rather than all at once.
+   Two things this rule has to get right. It hides a tag only while its
+   reveal container is still unrevealed, so a selector that fails to match
+   leaves the tag visible rather than invisible. And .skillcard carries .rv
+   itself rather than wrapping it, so the card needs matching as both an
+   ancestor and the element. Fill is backwards, not forwards: a retained
+   forwards fill would outrank the :hover transform for good. */
+.rv:not(.in) .work-tags .chip,
+.rv:not(.in) .skillcard div span,
+.rv:not(.in).skillcard div span{opacity:0;transform:translateY(8px) scale(.96)}
+.rv.in .work-tags .chip,.rv.in .skillcard div span,.rv.in.skillcard div span{
+  animation:chipIn .46s cubic-bezier(.2,.8,.3,1) backwards}
+.rv.in .work-tags .chip:nth-child(2),
+.rv.in .skillcard div span:nth-child(2),
+.rv.in.skillcard div span:nth-child(2){animation-delay:.06s}
+.rv.in .work-tags .chip:nth-child(3),
+.rv.in .skillcard div span:nth-child(3),
+.rv.in.skillcard div span:nth-child(3){animation-delay:.12s}
+.rv.in .work-tags .chip:nth-child(4),
+.rv.in .skillcard div span:nth-child(4),
+.rv.in.skillcard div span:nth-child(4){animation-delay:.18s}
+.rv.in .work-tags .chip:nth-child(n+5),
+.rv.in .skillcard div span:nth-child(n+5),
+.rv.in.skillcard div span:nth-child(n+5){animation-delay:.24s}
+@keyframes chipIn{to{opacity:1;transform:none}}
+
+/* a slow shine crosses the status ribbon on a project card.
+   Scoped to the card ribbon on purpose: the case-study pages reuse the same
+   class as a static inline label, and there an absolutely-positioned sweep
+   resolves against the page wrapper instead, stretching the layout by its
+   full width. */
+.work-media .ribbon{overflow:hidden}
+.work-media .ribbon::after{content:'';position:absolute;inset:0;
+  background:linear-gradient(105deg,transparent 38%,rgba(255,255,255,.85) 50%,transparent 62%);
+  transform:translateX(-120%);animation:shine 4.6s 1.2s ease-in-out infinite}
+@keyframes shine{0%{transform:translateX(-120%)}28%,100%{transform:translateX(120%)}}
+
+/* the case-study link leads with its arrow */
+.work-go{position:relative;transition:color .25s}
+.work-go::after{content:'';position:absolute;left:0;right:0;bottom:-2px;height:1px;
+  background:currentColor;transform:scaleX(0);transform-origin:100% 50%;
+  transition:transform .32s cubic-bezier(.2,.7,.3,1)}
+.work:hover .work-go{text-decoration:none;color:var(--indigo)}
+.work:hover .work-go::after{transform:scaleX(1);transform-origin:0 50%}
+
+/* the contact glow breathes instead of sitting still */
+.cta::before{animation:breathe 7s ease-in-out infinite alternate}
+@keyframes breathe{from{opacity:.72;transform:translateX(-50%) scale(.96)}
+  to{opacity:1;transform:translateX(-50%) scale(1.06)}}
+
+/* portrait ring reacts to the pointer */
+.portrait-wrap::after{transition:opacity .4s,filter .4s}
+.portrait-wrap:hover::after{opacity:.68;filter:blur(18px);animation-duration:5s}
+.portrait-wrap img{transition:transform .5s cubic-bezier(.2,.7,.3,1)}
+.portrait-wrap:hover img{transform:scale(1.035)}
+
+/* marquee terms respond to hover, so the strip reads as interactive */
+.mq-item{transition:color .25s,transform .25s}
+.mq-item:hover{color:var(--blue);transform:translateY(-2px)}
+
+/* about portrait drifts against the scroll */
+.about-photo img{transform:translate3d(0,var(--ay,0px),0);will-change:transform}
+
+/* step numbers roll up on reveal */
+.rv.in .step-n,.in .step-n{animation:rollUp .7s cubic-bezier(.16,.84,.24,1) backwards}
+@keyframes rollUp{from{opacity:0;transform:translateY(14px) rotate(-6deg)}
+  to{opacity:1;transform:none}}
+
+/* scroll-progress ring, doubles as back to top */
+.totop{position:fixed;right:22px;bottom:22px;z-index:250;width:46px;height:46px;
+  display:grid;place-items:center;border:0;padding:0;cursor:pointer;border-radius:50%;
+  background:rgba(255,255,255,.9);box-shadow:var(--shadow);
+  backdrop-filter:blur(10px);-webkit-backdrop-filter:blur(10px);
+  opacity:0;transform:translateY(14px) scale(.85);pointer-events:none;
+  transition:opacity .35s,transform .35s cubic-bezier(.2,.8,.3,1),box-shadow .25s}
+.totop.show{opacity:1;transform:none;pointer-events:auto}
+.totop:hover{box-shadow:var(--shadow-lg)}
+.totop svg{position:absolute;inset:0;width:46px;height:46px;transform:rotate(-90deg)}
+.totop circle{fill:none;stroke-width:2}
+.totop .trk{stroke:var(--line)}
+.totop .val{stroke:var(--blue);stroke-linecap:round;
+  stroke-dasharray:131.9;stroke-dashoffset:calc(131.9 - 131.9 * var(--p,0))}
+.totop span{position:relative;font-size:13px;line-height:1;color:var(--ink);
+  transition:transform .25s}
+.totop:hover span{transform:translateY(-2px)}
+
+@media(prefers-reduced-motion:reduce){
+  .hero::after{display:none}
+  .cue{display:none}
+  .rv:not(.in) .work-tags .chip,.rv:not(.in) .skillcard div span,
+  .rv:not(.in).skillcard div span{opacity:1!important;transform:none!important;animation:none!important}
+  .work-media .ribbon::after{display:none}
+  .cta::before{animation:none}
+  .rv.in .step-n,.in .step-n{animation:none!important}
+  .about-photo img{transform:none!important}
+  .totop{transition:none}
 }
